@@ -14,6 +14,8 @@ import {
   Body,
   Right,
 } from 'native-base'
+import { compose } from 'recompose'
+import { inject, observer } from 'mobx-react'
 
 const FavoriteItemCard = ({
                             name,
@@ -21,12 +23,12 @@ const FavoriteItemCard = ({
                             date,
                             img,
                             id,
+                            favoriteStore: {
+                              removeFavorite,
+                            },
                           }) => (
   <Card>
     <CardItem>
-      {
-        console.log('\n\n\nlolFavoriteItemCard', id)
-      }
       <Left>
         <Body>
           <Text>{cameras}</Text>
@@ -41,22 +43,21 @@ const FavoriteItemCard = ({
     </CardItem>
     <CardItem>
       <Left>
-        <Button transparent>
-          <Icon active name="thumbs-up"/>
-          <Text>12 Likes</Text>
+        <Button danger onPress={() => removeFavorite({
+          name,
+          id,
+          short: name[0].toLowerCase(),
+        })}>
+          <Text>×</Text>
         </Button>
       </Left>
-      <Body>
-        <Button transparent>
-          <Icon active name="chatbubbles"/>
-          <Text>4 Comments</Text>
-        </Button>
-      </Body>
-      <Right>
-        <Text>11h ago</Text>
-      </Right>
     </CardItem>
   </Card>
 )
 
-export default FavoriteItemCard
+const FavoriteItemCardComposed = compose(
+  inject('favoriteStore'),
+  observer,
+)(FavoriteItemCard)
+
+export default FavoriteItemCardComposed

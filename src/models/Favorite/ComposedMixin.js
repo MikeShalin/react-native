@@ -1,10 +1,10 @@
 import { types } from 'mobx-state-tree'
 
-import CollectionHelperMixin from './CollectionHelperMixin'
+import FavoriteHelperMixin from './FavoriteHelperMixin'
 import DataMixin from './DataMixin'
 
 const ComposedMixin = types.compose(
-  CollectionHelperMixin,
+  FavoriteHelperMixin,
   DataMixin,
 )
 

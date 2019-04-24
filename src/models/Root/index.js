@@ -11,7 +11,7 @@ const RootStore = types
     }),
     favoriteStore: types.optional(Favorite, {
       favorite: {
-        C: {
+        c: {
           Curiosity: {
             3132: {
               name: 'Curiosity',
@@ -27,7 +27,7 @@ const RootStore = types
             },
           },
         },
-        M: {
+        m: {
           MAST: {
             424926: {
               name: 'MAST',
