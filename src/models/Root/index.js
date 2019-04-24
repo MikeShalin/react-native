@@ -9,20 +9,36 @@ const RootStore = types
       isFetching: false,
       error: null,
     }),
-    // favoriteStore: types.optional(Favorite, {
-    //   3132: {
-    //     name: 'Curiosity',
-    //     cameras: 'CHEMCAM',
-    //     date: '2012-08-16',
-    //     img: 'http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/00010/soas/rdr/ccam/CR0_398380645PRCLF0030000CCAM04010L1.PNG',
-    //   },
-    //   58870: {
-    //     cameras: 'CHEMCAM',
-    //     img: 'http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/00010/opgs/edr/ccam/CR0_398381687EDR_F0030000CCAM05010M_.JPG',
-    //     date: '2012-08-16',
-    //     name: 'Curiosity',
-    //   },
-    // }),
+    favoriteStore: types.optional(Favorite, {
+      favorite: {
+        C: {
+          Curiosity: {
+            3132: {
+              name: 'Curiosity',
+              cameras: 'CHEMCAM',
+              date: '2012-08-16',
+              img: 'http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/00010/soas/rdr/ccam/CR0_398380645PRCLF0030000CCAM04010L1.PNG',
+            },
+            58870: {
+              name: 'Curiosity',
+              cameras: 'CHEMCAM',
+              img: 'http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/00010/opgs/edr/ccam/CR0_398381687EDR_F0030000CCAM05010M_.JPG',
+              date: '2012-08-16',
+            },
+          },
+        },
+        M: {
+          MAST: {
+            424926: {
+              name: 'MAST',
+              cameras: 'FHAZ',
+              date: '2012-08-16',
+              img: 'http://mars.jpl.nasa.gov/msl-raw-images/msss/01000/mcam/1000ML0044631200305217E01_DXXX.jpg',
+            },
+          },
+        },
+      },
+    }),
   })
   .views(self => ({
     getModel(name) {
