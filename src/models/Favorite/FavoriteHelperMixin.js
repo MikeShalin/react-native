@@ -4,8 +4,30 @@ import { omit, isEmpty, get } from 'lodash'
 const FavoriteHelperMixin = types
   .model('FavoriteHelperMixin')
   .actions(self => ({
-    addFavorite(photos) {
-      self.photos = photos
+    addFavorite({ short, id, ...photo }) {
+      const subName = get(self.favorite, [short, photo.name])
+
+      /** Если в favorites есть это имя добавляем в объект наше фото **/
+      if (subName) {
+        self.favorite = {
+          ...self.favorite,
+          [short]: {
+            [photo.name]: {
+              [id]: photo,
+              ...subName,
+            },
+          },
+        }
+      } else {
+        /** Если в favorites нет такого имени - добавляем объект **/
+
+        self.favorite = {
+          ...self.favorite,
+          [short]: {
+            [photo.name]: { [id]: photo },
+          },
+        }
+      }
     },
     removeFavorite({ short, name, id }) {
       self.favorite = omit(self.favorite, `${short}.${name}.${id}`)

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react'
+import { inject, observer } from 'mobx-react'
 import { get } from 'lodash'
 import m from 'moment/moment'
 import { isEmpty } from 'lodash'
+import { humanizedDate } from '../../../helpers'
 
 import { Image, StyleSheet } from 'react-native'
 import {
@@ -23,10 +24,19 @@ import {
   Row,
   Col,
 } from 'native-base'
+import { compose, withHandlers } from 'recompose'
 
 // {/** () => _deckSwiper.current._root.swipeLeft() **/}
 // {/** () => _deckSwiper.current._root.swipeRight() **/}
-const PhotosSwiper = ({ photos, isFetching }) => {
+const PhotosSwiper = ({
+                        photos,
+                        isFetching,
+                        favoriteStore: {
+                          addFavorite,
+                        },
+                        getPhotoName,
+                        getCamerasName,
+                      }) => {
   // console.log('\n\n\nlolphotos', photos)
   if (isEmpty(photos)) return <Spinner color='red'/> //todo исправить на isFetching
   const btnLike = React.createRef()
@@ -39,8 +49,23 @@ const PhotosSwiper = ({ photos, isFetching }) => {
         <DeckSwiper
           ref={_deckSwiper}
           dataSource={photos}
-          onSwipeRight={({ id }) => {
+          onSwipeRight={({
+                           id,
+                           earth_date,
+                           img_src,
+                           ...photo
+                         }) => {
             btnLike.current._root.touchableHandlePress()
+
+            const name = getPhotoName(photo, 'name')
+            addFavorite({
+              id,
+              name,
+              img: img_src,
+              short: name && name[0].toLowerCase(),
+              cameras: getCamerasName(photo),
+              date: humanizedDate(earth_date),
+            })
           }}
           onSwipeLeft={({ id }) => {
             btnDisLike.current._root.touchableHandlePress()
@@ -50,10 +75,9 @@ const PhotosSwiper = ({ photos, isFetching }) => {
               <CardItem>
                 <Left>
                   <Body>
-                    <Text>{get(item, ['rover', 'name'])}</Text>
-                    <Text>{get(item, ['rover', 'cameras', 0, 'name'])}</Text>
-                    <Text
-                      note>{m(get(item, 'earth_date')).format('MMMM D, YYYY')}</Text>
+                    <Text>{getPhotoName(item)}</Text>
+                    <Text>{getCamerasName(item)}</Text>
+                    <Text note>{humanizedDate(get(item, 'earth_date'))}</Text>
                   </Body>
                 </Left>
               </CardItem>
@@ -82,4 +106,13 @@ const PhotosSwiper = ({ photos, isFetching }) => {
   )
 }
 
-export default observer(PhotosSwiper)
+const PhotosSwiperComposed = compose(
+  inject('favoriteStore'),
+  observer,
+  withHandlers({
+    getPhotoName: () => (photo) => get(photo, ['rover', 'name']),
+    getCamerasName: () => (photo) => get(photo, ['rover', 'cameras', 0, 'name']),
+  }),
+)(PhotosSwiper)
+
+export default PhotosSwiperComposed
