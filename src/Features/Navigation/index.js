@@ -5,18 +5,8 @@ import FavoritePhotos from '../FavoritePhotos/Components'
 
 const AppNavigator = createStackNavigator(
   {
-    Home: {
-      screen: HomeScreen,
-      navigationOptions: {
-        title: 'My Mars',
-      },
-    },
-    Details: {
-      screen: FavoritePhotos,
-      navigationOptions: {
-        title: 'My Mars',
-      },
-    },
+    Home: HomeScreen,
+    FavoritePhotos: FavoritePhotos,
   },
   {
     initialRouteName: 'Home',
