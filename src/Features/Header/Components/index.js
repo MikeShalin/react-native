@@ -21,13 +21,9 @@ const HeaderWrapper = ({
                            handleUndo,
                            lastPhoto,
                          },
-                         favoriteStore,
-                       }) => ( //light
+                       }) => (
   <Header>
     <Left>
-      {
-        console.log('\n\nfavoriteStore', favoriteStore.lastPhoto)
-      }
       <Button
         transparent
         danger={!!lastPhoto}

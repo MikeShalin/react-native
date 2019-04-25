@@ -5,7 +5,7 @@ import { DeckSwiper, Spinner, Content } from 'native-base'
 import { compose, withHandlers } from 'recompose'
 
 import { humanizedDate } from '../../../helpers'
-import DeckSwiperCard from '../../DeckSwiperCard'
+import PhotoSwiperCard from '../../PhotoSwiperCard'
 
 const PhotosSwiper = ({
                         photos,
@@ -32,7 +32,7 @@ const PhotosSwiper = ({
         btnDisLike.current._root.touchableHandlePress()
       }}
       renderItem={(item) => (
-        <DeckSwiperCard
+        <PhotoSwiperCard
           photos={photos}
           photoName={getPhotoName(item)}
           camerasName={getCamerasName(item)}

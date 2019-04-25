@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react' //через expo нельзя хукать
+import React from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose, lifecycle } from 'recompose'
 
@@ -12,7 +12,7 @@ const HomeScreenComposed = compose(
   inject('photosStore'),
   lifecycle({
     componentDidMount() {
-      this.props.photosStore.fetchPhotos(10)
+      this.props.photosStore.fetchPhotos(1000)
     },
   }),
   observer,
