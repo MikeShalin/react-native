@@ -10,8 +10,7 @@ import {
 import { map } from 'lodash'
 import FavoriteItemCard from '../../FavoriteItemCard/Components'
 
-//todo упорядочить по алфовиту
-const FavoritePhotosScreen = ({ favoriteStore: { favorite }, ...props }) => (
+const FavoritePhotosScreen = ({ favoriteStore: { favorite } }) => (
   <Content>
     <List>
       {

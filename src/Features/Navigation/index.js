@@ -2,6 +2,7 @@ import React from 'react' //через expo нельзя хукать
 import { createStackNavigator, createAppContainer } from 'react-navigation'
 import HomeScreen from '../HomeScreen/Components'
 import FavoritePhotos from '../FavoritePhotos/Components'
+import { INITIAL_ROUTE } from '../../constants'
 
 const AppNavigator = createStackNavigator(
   {
@@ -9,7 +10,8 @@ const AppNavigator = createStackNavigator(
     FavoritePhotos: FavoritePhotos,
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: INITIAL_ROUTE,
+    headerMode: 'none',
   },
 )
 

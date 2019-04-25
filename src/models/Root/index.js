@@ -1,6 +1,7 @@
+import { types } from 'mobx-state-tree'
+
 import Photos from '../Photos'
 import Favorite from '../Favorite'
-import { types } from 'mobx-state-tree'
 
 const RootStore = types
   .model('RootStore', {
@@ -11,6 +12,7 @@ const RootStore = types
     }),
     favoriteStore: types.optional(Favorite, {
       favorite: {},
+      lastPhoto: null,
     }),
   })
 

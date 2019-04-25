@@ -28,6 +28,8 @@ const FavoriteHelperMixin = types
           },
         }
       }
+
+      self.addLastPhoto({ short, id, name: photo.name })
     },
     removeFavorite({ short, name, id }) {
       self.favorite = omit(self.favorite, `${short}.${name}.${id}`)
@@ -38,6 +40,14 @@ const FavoriteHelperMixin = types
       if (isEmpty(get(self, ['favorite', short]))) {
         self.favorite = omit(self.favorite, `${short}`)
       }
+    },
+    addLastPhoto(photo) {
+      self.lastPhoto = photo
+    },
+    handleUndo() {
+      const lastPhoto = self.lastPhoto
+      self.addLastPhoto(null)
+      self.removeFavorite(lastPhoto)
     },
   }))
 
