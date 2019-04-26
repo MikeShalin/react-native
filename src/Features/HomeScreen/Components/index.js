@@ -2,7 +2,7 @@ import React from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose, lifecycle } from 'recompose'
 
-import DeckSwiper from '../../DeckSwiper/Components'
+import DeckSwiper from '../../PhotoSwiper/Components'
 
 const HomeScreen = ({ photosStore: { photos, ...photosStore } }) => (
   <DeckSwiper photos={photos.slice()} {...photosStore}/>

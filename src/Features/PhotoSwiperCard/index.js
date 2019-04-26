@@ -1,20 +1,31 @@
-import React  from 'react'
-import { Image, View } from 'react-native'
+import React from 'react'
+import { Image } from 'react-native'
 import {
   Card,
   CardItem,
   Text,
+  Left,
   Body,
   Button,
   Grid,
-  Col,
-  Left,
   Right,
-  Content,
-  StyleSheet,
+  Col,
+  Container,
+  View,
 } from 'native-base'
 
-const PhotoSwiperCard = ({
+//      <CardItem>
+//         <Left>
+//           <Body>
+//             <Text>{photoName}</Text>
+//             <Text>{camerasName}</Text>
+//             <Text note>{date}</Text>
+//           </Body>
+//         </Left>
+//       </CardItem>
+
+//
+const DeckSwiperCard = ({
                           photos,
                           photoName,
                           camerasName,
@@ -23,51 +34,50 @@ const PhotoSwiperCard = ({
                           btnDisLike,
                           btnLike,
                         }) => (
-  <Card style={{ elevation: 3 }} >
-    <CardItem>
-      <Left>
-        <Body>
-          <Text>{photoName}</Text>
-          <Text>{camerasName}</Text>
-          <Text note>{date}</Text>
-        </Body>
-      </Left>
-    </CardItem>
-    <CardItem cardBody>
-      <Content>
-        <Image style={{ height: 300, flex: 1 }} source={img}/>
-        <Button
-          style={{ position: 'absolute' }}
-          onPress={null}
-          ref={btnDisLike}
-          dark
-          rounded
-          large
-        >
-          <Text>👎</Text>
-        </Button>
-        <Button
-          style={{ position: 'absolute' }}
-          onPress={null}
-          ref={btnLike}
-          danger
-          rounded
-          large
-        >
-          <Text>👍</Text>
-        </Button>
-      </Content>
-    </CardItem>
-    <Grid>
-      <Col>
-      </Col>
-      <Col>
-        <Text>{photos.length} cards</Text>
-      </Col>
-      <Col>
-      </Col>
-    </Grid>
-  </Card>
+  <Container>
+    <View>
+      <View style={{ position: 'absolute', zIndex: 9, color: '#fff', marginTop: 30, marginLeft: 30}}>
+        <Text style={{color: '#fff'}}>{photoName}</Text>
+        <Text style={{color: '#fff'}}>{camerasName}</Text>
+        <Text style={{color: '#fff'}} note>{date}</Text>
+      </View>
+      <Card style={{ elevation: 3, marginTop: 20 }}>
+        <CardItem cardBody>
+          <Image style={{ height: 430, flex: 1 }} source={img}/>
+        </CardItem>
+      </Card>
+      <Grid>
+        <Left>
+          <Button
+            style={{ marginLeft: 50, left: 0 }}
+            onPress={null}
+            ref={btnDisLike}
+            dark
+            rounded
+            large
+          >
+            <Text>👎</Text>
+          </Button>
+        </Left>
+       <View>
+         <Text style={{ height: 20 }}>{photos.length} cards</Text>
+       </View>
+        <Right>
+          <Button
+            style={{ marginRight: 50, right: 0 }}
+            onPress={null}
+            ref={btnLike}
+            danger
+            rounded
+            large
+          >
+            <Text>👍</Text>
+          </Button>
+        </Right>
+      </Grid>
+
+    </View>
+  </Container>
 )
 
-export default PhotoSwiperCard
+export default DeckSwiperCard
