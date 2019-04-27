@@ -1,9 +1,10 @@
 import { get } from 'lodash'
 
-import { humanizedDate } from '../../../helpers'
+import { buttonAnimation, humanizedDate } from '../../../helpers'
 import PhotoSwiperCard from '../../PhotoSwiperCard'
 import React from 'react'
 import Swiper from 'react-native-deck-swiper'
+import { compose, withHandlers } from 'recompose'
 
 const style = {
   containerStyle: {
@@ -22,13 +23,13 @@ const PhotoSwiper = ({
                        getPhotoName,
                        getCamerasName,
                        swiper,
-                       swiperAddFavorite,
-                       swiperNext,
+                       handleSwipedRight,
+                       handleSwipedLeft,
                      }) => (
   <Swiper
     ref={swiper}
-    onSwipedLeft={swiperNext}
-    onSwipedRight={swiperAddFavorite}
+    onSwipedLeft={handleSwipedLeft}
+    onSwipedRight={handleSwipedRight}
     cards={photos}
     useViewOverflow={false}
     cardVerticalMargin={30}
@@ -56,4 +57,25 @@ const PhotoSwiper = ({
   </Swiper>
 )
 
-export default PhotoSwiper
+const PhotoSwiperComposed = compose(
+  withHandlers({
+    handleSwipedRight: ({
+                          handlerAddFavorite,
+                          setPhotoIndex,
+                          btnLikeAnimatedValue,
+                        }) => (index, photo) => {
+      handlerAddFavorite(photo)
+      setPhotoIndex(index)
+      buttonAnimation(btnLikeAnimatedValue)
+    },
+    handleSwipedLeft: ({
+                   setPhotoIndex,
+                   btnDisLikeAnimatedValue,
+                 }) => (index) => {
+      setPhotoIndex(index)
+      buttonAnimation(btnDisLikeAnimatedValue)
+    },
+  }),
+)(PhotoSwiper)
+
+export default PhotoSwiperComposed

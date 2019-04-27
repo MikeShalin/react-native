@@ -30,15 +30,15 @@ const WrapperPhotoSwiperFooter = ({
                                     btnDisLikeAnimatedValue,
                                     btnLikeAnimatedValue,
                                     photosCount,
-                                    footerAddFavorite,
-                                    footerNext,
+                                    handleSwipedLeft,
+                                    handleSwipedRight,
                                     getStyle,
                                   }) => (
   <Grid>
     <Left>
       <FooterButton
         style={getStyle( btnDisLikeAnimatedValue, 'marginLeft', '#000')}
-        onPress={footerAddFavorite}
+        onPress={handleSwipedLeft}
       >
         <Text style={style.title}>👎</Text>
       </FooterButton>
@@ -49,7 +49,7 @@ const WrapperPhotoSwiperFooter = ({
     <Right>
       <FooterButton
         style={getStyle( btnLikeAnimatedValue, 'marginRight', '#ff0000')}
-        onPress={footerNext}
+        onPress={handleSwipedRight}
       >
         <Text style={style.title}>👍</Text>
       </FooterButton>
@@ -65,8 +65,20 @@ const WrapperPhotoSwiperFooterComposed = compose(
         [marginDir]: 50,
         backgroundColor,
       },
-    })
-  })
+    }),
+    handleSwipedLeft: ({
+                          handlerAddFavorite,
+                          photoIndex,
+                          swiper,
+                        }) => () => {
+      handlerAddFavorite(swiper.current.state.cards[photoIndex])
+      swiper.current.swipeLeft()
+    },
+
+    handleSwipedRight: ({ swiper }) => () => {
+      swiper.current.swipeRight()
+    },
+  }),
 )(WrapperPhotoSwiperFooter)
 
 export default WrapperPhotoSwiperFooterComposed

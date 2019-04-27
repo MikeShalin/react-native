@@ -1,5 +1,7 @@
 import axios from 'axios'
 import m from 'moment'
+import { Animated } from 'react-native'
+import { delay } from 'lodash'
 
 const getResult = ({ uri, config }) => axios.get(uri, { params: config })
 
@@ -18,3 +20,22 @@ export const callApi = ({
 }
 
 export const humanizedDate = (time) => m(time).format('MMMM D, YYYY')
+
+const handlerPressIn = (animatedValue) => {
+  Animated.spring(animatedValue, {
+    toValue: .5,
+  }).start()
+}
+const handlerPressOut = (animatedValue) => {
+  Animated.spring(animatedValue, {
+    toValue: 1,
+    friction: 3,
+    tension: 40,
+  }).start()
+}
+
+export const buttonAnimation = (animatedValue) => {
+  handlerPressIn(animatedValue)
+  delay(() => handlerPressOut(animatedValue), 100)
+}
+

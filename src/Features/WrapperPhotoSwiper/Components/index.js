@@ -1,6 +1,6 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
-import { get, delay, size } from 'lodash'
+import { size, get } from 'lodash'
 import {
   compose,
   withHandlers,
@@ -20,7 +20,6 @@ import {
 
 const WrapperPhotoSwiper = ({ isFetching, ...props }) => {
   if (isFetching) return <Spinner color='red'/>
-  // const swiper = React.createRef()
   return (
     <Container>
       <Grid>
@@ -42,28 +41,11 @@ const WrapperPhotoSwiperComposed = compose(
     btnDisLikeAnimatedValue: new Animated.Value(1),
     btnLikeAnimatedValue: new Animated.Value(1),
     swiper: React.createRef(),
-  }),
-  withHandlers({
+  }), withHandlers(({
     getPhotoName: () => (photo) => get(photo, ['rover', 'name']),
     getCamerasName: () => (photo) => get(photo, ['rover', 'cameras', 0, 'name']),
-    handlerPressIn: () => (animatedValue) => {
-      Animated.spring(animatedValue, {
-        toValue: .5,
-      }).start()
-    },
-    handlerPressOut: () => (animatedValue) => {
-      Animated.spring(animatedValue, {
-        toValue: 1,
-        friction: 3,
-        tension: 40,
-      }).start()
-    },
-  }),
+  })),
   withHandlers({
-    btnAnimation: ({ handlerPressIn, handlerPressOut }) => (animatedValue) => {
-      handlerPressIn(animatedValue)
-      delay(() => handlerPressOut(animatedValue), 100)
-    },
     handlerAddFavorite: ({
                            favoriteStore: {
                              addFavorite,
@@ -86,37 +68,6 @@ const WrapperPhotoSwiperComposed = compose(
         cameras: getCamerasName(photo),
         date: humanizedDate(earth_date),
       })
-    },
-  }),
-  withHandlers({
-    swiperAddFavorite: ({
-                         handlerAddFavorite,
-                         setPhotoIndex,
-                         btnAnimation,
-                         btnLikeAnimatedValue,
-    }) => (index, photo) => {
-      handlerAddFavorite(photo)
-      setPhotoIndex(index)
-      btnAnimation(btnLikeAnimatedValue)
-    },
-    footerAddFavorite: ({
-                         handlerAddFavorite,
-                         photoIndex,
-                         swiper,
-                       }) => () => {
-      handlerAddFavorite(swiper.current.state.cards[photoIndex])
-      swiper.current.swipeLeft()
-    },
-    swiperNext: ({
-                          setPhotoIndex,
-                          btnAnimation,
-                          btnDisLikeAnimatedValue,
-                        }) => (index) => {
-      setPhotoIndex(index)
-      btnAnimation(btnDisLikeAnimatedValue)
-    },
-    footerNext: ({ swiper }) => () => {
-      swiper.current.swipeRight()
     },
   }),
 )(WrapperPhotoSwiper)

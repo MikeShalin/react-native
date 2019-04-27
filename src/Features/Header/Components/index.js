@@ -9,7 +9,12 @@ import {
   Title,
   Text,
 } from 'native-base'
-import { compose, defaultProps, withHandlers } from 'recompose'
+import {
+  compose,
+  defaultProps,
+  withHandlers,
+  withProps,
+} from 'recompose'
 import { get } from 'lodash'
 import { inject, observer } from 'mobx-react'
 
@@ -52,12 +57,21 @@ const HeaderWrapperCompose = compose(
       FavoritePhotos: 'Home',
     },
   }),
-  withHandlers({
-    handlerPress: ({ navigation, route }) => () => {
-      const { nav } = navigation.current.state
+  withProps(({ navigation, route }) => {
+    const { nav } = get(navigation, 'current.state', { nav: null })
+    let currentRoute, prevRoute
+    if (nav) {
       const { routes, index } = nav
-      const currentRoute = get(routes, [index, 'routeName'])
-      const prevRoute = get(route, currentRoute)
+      currentRoute = get(routes, [index, 'routeName'])
+      prevRoute = get(route, currentRoute)
+    }
+    return {
+      currentRoute,
+      prevRoute,
+    }
+  }),
+  withHandlers({
+    handlerPress: ({ prevRoute }) => () => {
       navigation.current._navigation.navigate(prevRoute)
     },
   }),
