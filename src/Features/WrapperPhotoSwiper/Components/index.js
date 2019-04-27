@@ -6,25 +6,20 @@ import {
   withHandlers,
   defaultProps,
   withState,
+  lifecycle,
 } from 'recompose'
 
 import { humanizedDate } from '../../../helpers'
 import PhotoSwiper from '../../PhotoSwiper/Components'
 import WrapperPhotoSwiperFooter from '../../WrapperPhotoSwiperFooter/Components'
 import { Animated } from 'react-native'
-import {
-  Spinner,
-  Grid,
-  Container,
-} from 'native-base'
+import { Spinner, Container } from 'native-base'
 
 const WrapperPhotoSwiper = ({ isFetching, ...props }) => {
   if (isFetching) return <Spinner color='red'/>
   return (
     <Container>
-      <Grid>
-        <PhotoSwiper {...props}/>
-      </Grid>
+      <PhotoSwiper {...props}/>
       <WrapperPhotoSwiperFooter
         photosCount={size(props.photos)}
         {...props}
@@ -41,7 +36,8 @@ const WrapperPhotoSwiperComposed = compose(
     btnDisLikeAnimatedValue: new Animated.Value(1),
     btnLikeAnimatedValue: new Animated.Value(1),
     swiper: React.createRef(),
-  }), withHandlers(({
+  }),
+  withHandlers(({
     getPhotoName: () => (photo) => get(photo, ['rover', 'name']),
     getCamerasName: () => (photo) => get(photo, ['rover', 'cameras', 0, 'name']),
   })),
@@ -59,7 +55,6 @@ const WrapperPhotoSwiperComposed = compose(
                                   ...photo
                                 }) => {
       const name = getPhotoName(photo, 'name')
-
       addFavorite({
         id,
         name,
@@ -70,6 +65,24 @@ const WrapperPhotoSwiperComposed = compose(
       })
     },
   }),
+  observer,
+  lifecycle({
+    componentDidUpdate(prevProps) {
+      const {
+        setPhotoIndex,
+        lastPhoto,
+        swiper,
+        photoIndex,
+        favoriteStore: { removeFavorite },
+      } = this.props
+      if(prevProps.lastPhoto && !lastPhoto) {
+        setPhotoIndex(photoIndex)
+        swiper.current.swipeBack()
+        removeFavorite(swiper.current.state.cards[photoIndex])
+      }
+    },
+  }),
+  observer,
 )(WrapperPhotoSwiper)
 
 export default WrapperPhotoSwiperComposed

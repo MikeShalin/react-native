@@ -2,14 +2,14 @@ import React from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose, lifecycle } from 'recompose'
 
-import DeckSwiper from '../../WrapperPhotoSwiper/Components'
+import WrapperPhotoSwiper from '../../WrapperPhotoSwiper/Components'
 
-const HomeScreen = ({ photosStore: { photos, ...photosStore } }) => (
-  <DeckSwiper photos={photos.slice()} {...photosStore}/>
+const HomeScreen = ({ photosStore: { photos, ...photosStore }, favoriteStore: { lastPhoto  }}) => (
+  <WrapperPhotoSwiper photos={photos.slice()} lastPhoto={lastPhoto} {...photosStore}/>
 )
 
 const HomeScreenComposed = compose(
-  inject('photosStore'),
+  inject('photosStore', 'favoriteStore'),
   lifecycle({
     componentDidMount() {
       this.props.photosStore.fetchPhotos(10)

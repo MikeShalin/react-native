@@ -5,6 +5,8 @@ import PhotoSwiperCard from '../../PhotoSwiperCard'
 import React from 'react'
 import Swiper from 'react-native-deck-swiper'
 import { compose, withHandlers } from 'recompose'
+import { Grid } from 'native-base'
+import { inject } from 'mobx-react'
 
 const style = {
   containerStyle: {
@@ -26,38 +28,38 @@ const PhotoSwiper = ({
                        handleSwipedRight,
                        handleSwipedLeft,
                      }) => (
-  <Swiper
-    ref={swiper}
-    onSwipedLeft={handleSwipedLeft}
-    onSwipedRight={handleSwipedRight}
-    cards={photos}
-    useViewOverflow={false}
-    cardVerticalMargin={30}
-    containerStyle={style.containerStyle}
-    cardStyle={style.cardStyle}
-    backgroundColor='transparent'
-    renderCard={card => (
-      <PhotoSwiperCard
-        photoName={getPhotoName(card)}
-        camerasName={getCamerasName(card)}
-        date={humanizedDate(get(card, 'earth_date'))}
-        img={{ uri: get(card, 'img_src') }}
-      />
-    )}
-    onSwipedAll={() => console.log('onSwipedAll')}
-    stackSize={3}
-    stackSeparation={-15}
-    verticalSwipe={false}
-    animateOverlayLabelsOpacity
-    animateCardOpacity
-    swipeBackCard
-  >
-    {/*<Button onPress={() => swiper.current.swipeBack()}*/}
-    {/*        title='Swipe Back'/>*/}
-  </Swiper>
+  <Grid>
+    <Swiper
+      ref={swiper}
+      onSwipedLeft={handleSwipedLeft}
+      onSwipedRight={handleSwipedRight}
+      cards={photos}
+      useViewOverflow={false}
+      cardVerticalMargin={30}
+      containerStyle={style.containerStyle}
+      cardStyle={style.cardStyle}
+      backgroundColor='transparent'
+      renderCard={card => (
+        <PhotoSwiperCard
+          photoName={getPhotoName(card)}
+          camerasName={getCamerasName(card)}
+          date={humanizedDate(get(card, 'earth_date'))}
+          img={{ uri: get(card, 'img_src') }}
+        />
+      )}
+      stackSize={3}
+      stackSeparation={-15}
+      verticalSwipe={false}
+      animateOverlayLabelsOpacity
+      animateCardOpacity
+      swipeBackCard
+    >
+    </Swiper>
+  </Grid>
 )
 
 const PhotoSwiperComposed = compose(
+  inject('favoriteStore'),
   withHandlers({
     handleSwipedRight: ({
                           handlerAddFavorite,
@@ -68,10 +70,7 @@ const PhotoSwiperComposed = compose(
       setPhotoIndex(index)
       buttonAnimation(btnLikeAnimatedValue)
     },
-    handleSwipedLeft: ({
-                   setPhotoIndex,
-                   btnDisLikeAnimatedValue,
-                 }) => (index) => {
+    handleSwipedLeft: ({ setPhotoIndex, btnDisLikeAnimatedValue }) => (index) => {
       setPhotoIndex(index)
       buttonAnimation(btnDisLikeAnimatedValue)
     },

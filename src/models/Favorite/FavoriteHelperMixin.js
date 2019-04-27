@@ -45,7 +45,7 @@ const FavoriteHelperMixin = types
     },
     handleUndo() {
       const lastPhoto = self.lastPhoto
-      self.addLastPhoto(null)
+      self.lastPhoto = null
       self.removeFavorite(lastPhoto)
     },
   }))
