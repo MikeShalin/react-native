@@ -26,7 +26,7 @@ import {
 
 //
 const DeckSwiperCard = ({
-                          photos,
+                          photosCount,
                           photoName,
                           camerasName,
                           date,
@@ -34,50 +34,22 @@ const DeckSwiperCard = ({
                           btnDisLike,
                           btnLike,
                         }) => (
-  <Container>
-    <View>
-      <View style={{ position: 'absolute', zIndex: 9, color: '#fff', marginTop: 30, marginLeft: 30}}>
-        <Text style={{color: '#fff'}}>{photoName}</Text>
-        <Text style={{color: '#fff'}}>{camerasName}</Text>
-        <Text style={{color: '#fff'}} note>{date}</Text>
-      </View>
-      <Card style={{ elevation: 3, marginTop: 20 }}>
-        <CardItem cardBody>
-          <Image style={{ height: 430, flex: 1 }} source={img}/>
-        </CardItem>
-      </Card>
-      <Grid>
-        <Left>
-          <Button
-            style={{ marginLeft: 50, left: 0 }}
-            onPress={null}
-            ref={btnDisLike}
-            dark
-            rounded
-            large
-          >
-            <Text>👎</Text>
-          </Button>
-        </Left>
-       <View>
-         <Text style={{ height: 20 }}>{photos.length} cards</Text>
-       </View>
-        <Right>
-          <Button
-            style={{ marginRight: 50, right: 0 }}
-            onPress={null}
-            ref={btnLike}
-            danger
-            rounded
-            large
-          >
-            <Text>👍</Text>
-          </Button>
-        </Right>
-      </Grid>
-
+  <View>
+    <View style={{ position: 'absolute', zIndex: 9, color: '#fff', marginTop: 30, marginLeft: 30}}>
+      <Text style={{ color: '#fff' }}>{photoName}</Text>
+      <Text style={{ color: '#fff' }}>{camerasName}</Text>
+      <Text style={{ color: '#fff' }} note>{date}</Text>
     </View>
-  </Container>
+    <CardItem cardBody>
+      <Image style={{
+        height: 350,
+        flex: 1,
+        borderRadius: 6,
+        borderWidth: 1,
+        borderColor: '#000',
+      }} source={img}/>
+    </CardItem>
+  </View>
 )
 
 export default DeckSwiperCard

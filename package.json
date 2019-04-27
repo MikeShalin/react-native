@@ -18,12 +18,14 @@
     "mobx": "5.6.0",
     "mobx-react": "5.4.2",
     "mobx-state-tree": "3.8.1",
+    "moment": "2.23.0",
     "native-base": "^2.12.1",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-deck-swiper": "^1.6.7",
+    "react-native-view-overflow": "^0.0.4",
     "react-navigation": "^3.8.1",
-    "recompose": "0.27.1",
-    "moment": "2.23.0"
+    "recompose": "0.27.1"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",

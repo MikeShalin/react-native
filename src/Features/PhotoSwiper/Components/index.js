@@ -1,83 +1,59 @@
-import React from 'react'
-import { inject, observer } from 'mobx-react'
-import { get, isEmpty } from 'lodash'
-import { DeckSwiper, Spinner, Content } from 'native-base'
-import { compose, withHandlers } from 'recompose'
+import { get } from 'lodash'
 
 import { humanizedDate } from '../../../helpers'
-import DeckSwiperCard from '../../PhotoSwiperCard'
+import PhotoSwiperCard from '../../PhotoSwiperCard'
+import React from 'react'
+import Swiper from 'react-native-deck-swiper'
 
-const PhotosSwiper = ({
-                        photos,
-                        isFetching,
-                        getPhotoName,
-                        getCamerasName,
-                        handlerSwipeRight,
-                      }) => {
-  if (isFetching) return <Spinner color='red'/>
-  const btnLike = React.createRef()
-  const btnDisLike = React.createRef()
-  const _deckSwiper = React.createRef()
-  return (
-    <DeckSwiper
-      ref={_deckSwiper}
-      dataSource={photos}
-      onSwipeRight={(photo) => {
-        btnLike.current._root.touchableHandlePress()
-        handlerSwipeRight(photo)
-      }}
-      onSwipeLeft={() => {
-
-        //todo что происходит на свайп влево?
-        btnDisLike.current._root.touchableHandlePress()
-      }}
-      renderItem={(item) => (
-        <DeckSwiperCard
-          photos={photos}
-          photoName={getPhotoName(item)}
-          camerasName={getCamerasName(item)}
-          date={humanizedDate(get(item, 'earth_date'))}
-          img={{ uri: get(item, 'img_src') }}
-          btnDisLike={btnLike}
-          btnLike={btnDisLike}
-        />
-      )}
-    />
-  )
+const style = {
+  containerStyle: {
+    height: 300,
+  },
+  cardStyle: {
+    background: 'transparent',
+    flex: 1,
+    justifyContent: 'center',
+    height: 350,
+  },
 }
 
-const PhotosSwiperComposed = compose(
-  inject('favoriteStore'),
-  observer,
-  withHandlers({
-    getPhotoName: () => (photo) => get(photo, ['rover', 'name']),
-    getCamerasName: () => (photo) => get(photo, ['rover', 'cameras', 0, 'name']),
-  }),
-  withHandlers({
-    handlerSwipeRight: ({
-                          favoriteStore: {
-                            addFavorite,
-                          },
-                          getPhotoName,
-                          getCamerasName,
-                        }) => ({
-                                 id,
-                                 earth_date,
-                                 img_src,
-                                 ...photo
-                               }) => {
-      const name = getPhotoName(photo, 'name')
+const PhotoSwiper = ({
+                       photos,
+                       getPhotoName,
+                       getCamerasName,
+                       swiper,
+                       swiperAddFavorite,
+                       swiperNext,
+                     }) => (
+  <Swiper
+    ref={swiper}
+    onSwipedLeft={swiperNext}
+    onSwipedRight={swiperAddFavorite}
+    cards={photos}
+    useViewOverflow={false}
+    cardVerticalMargin={30}
+    containerStyle={style.containerStyle}
+    cardStyle={style.cardStyle}
+    backgroundColor='transparent'
+    renderCard={card => (
+      <PhotoSwiperCard
+        photoName={getPhotoName(card)}
+        camerasName={getCamerasName(card)}
+        date={humanizedDate(get(card, 'earth_date'))}
+        img={{ uri: get(card, 'img_src') }}
+      />
+    )}
+    onSwipedAll={() => console.log('onSwipedAll')}
+    stackSize={3}
+    stackSeparation={-15}
+    verticalSwipe={false}
+    animateOverlayLabelsOpacity
+    animateCardOpacity
+    swipeBackCard
+  >
+    {/*<Button onPress={() => swiper.current.swipeBack()}*/}
+    {/*        title='Swipe Back'/>*/}
+  </Swiper>
+)
 
-      addFavorite({
-        id,
-        name,
-        img: img_src,
-        short: name && name[0].toLowerCase(),
-        cameras: getCamerasName(photo),
-        date: humanizedDate(earth_date),
-      })
-    },
-  }),
-)(PhotosSwiper)
-
-export default PhotosSwiperComposed
+export default PhotoSwiper
