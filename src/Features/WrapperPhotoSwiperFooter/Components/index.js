@@ -8,8 +8,9 @@ import {
 } from 'native-base'
 
 import FooterButton from '../../FooterButton/Components'
+import { StyleSheet } from 'react-native'
 
-const style = {
+const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     marginLeft: 0,
@@ -24,7 +25,7 @@ const style = {
     textAlign: 'center',
     width: 100,
   },
-}
+})
 
 const WrapperPhotoSwiperFooter = ({
                                     btnDisLikeAnimatedValue,
@@ -37,21 +38,21 @@ const WrapperPhotoSwiperFooter = ({
   <Grid>
     <Left>
       <FooterButton
-        style={getStyle( btnDisLikeAnimatedValue, 'marginLeft', '#000')}
+        style={getStyle(btnDisLikeAnimatedValue, 'marginLeft', '#000')}
         onPress={handleSwipedLeft}
       >
-        <Text style={style.title}>👎</Text>
+        <Text style={styles.title}>👎</Text>
       </FooterButton>
     </Left>
     <Left>
-      <Text style={style.photoCount}>{photosCount} cards</Text>
+      <Text style={styles.photoCount}>{photosCount} cards</Text>
     </Left>
     <Right>
       <FooterButton
-        style={getStyle( btnLikeAnimatedValue, 'marginRight', '#ff0000')}
+        style={getStyle(btnLikeAnimatedValue, 'marginRight', '#ff0000')}
         onPress={handleSwipedRight}
       >
-        <Text style={style.title}>👍</Text>
+        <Text style={styles.title}>👍</Text>
       </FooterButton>
     </Right>
   </Grid>
@@ -66,15 +67,10 @@ const WrapperPhotoSwiperFooterComposed = compose(
         backgroundColor,
       },
     }),
-    handleSwipedLeft: ({
-                          handlerAddFavorite,
-                          photoIndex,
-                          swiper,
-                        }) => () => {
+    handleSwipedLeft: ({ handlerAddFavorite, photoIndex, swiper }) => () => {
       handlerAddFavorite(swiper.current.state.cards[photoIndex])
       swiper.current.swipeLeft()
     },
-
     handleSwipedRight: ({ swiper }) => () => {
       swiper.current.swipeRight()
     },

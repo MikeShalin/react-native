@@ -8,12 +8,12 @@ import {
   withState,
   lifecycle,
 } from 'recompose'
-
-import { humanizedDate } from '../../../helpers'
-import PhotoSwiper from '../../PhotoSwiper/Components'
-import WrapperPhotoSwiperFooter from '../../WrapperPhotoSwiperFooter/Components'
 import { Animated } from 'react-native'
 import { Spinner, Container } from 'native-base'
+
+import PhotoSwiper from '../../PhotoSwiper/Components'
+import WrapperPhotoSwiperFooter from '../../WrapperPhotoSwiperFooter/Components'
+import { humanizedDate } from '../../../helpers'
 
 const WrapperPhotoSwiper = ({ isFetching, ...props }) => {
   if (isFetching) return <Spinner color='red'/>

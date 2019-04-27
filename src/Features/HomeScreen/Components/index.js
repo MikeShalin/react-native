@@ -4,15 +4,24 @@ import { compose, lifecycle } from 'recompose'
 
 import WrapperPhotoSwiper from '../../WrapperPhotoSwiper/Components'
 
-const HomeScreen = ({ photosStore: { photos, ...photosStore }, favoriteStore: { lastPhoto  }}) => (
-  <WrapperPhotoSwiper photos={photos.slice()} lastPhoto={lastPhoto} {...photosStore}/>
+const HomeScreen = ({
+                      photosStore: {
+                        photos,
+                        ...photosStore
+                      },
+                      favoriteStore: {
+                        lastPhoto,
+                      },
+                    }) => (
+  <WrapperPhotoSwiper photos={photos.slice()}
+                      lastPhoto={lastPhoto} {...photosStore}/>
 )
 
 const HomeScreenComposed = compose(
   inject('photosStore', 'favoriteStore'),
   lifecycle({
     componentDidMount() {
-      this.props.photosStore.fetchPhotos(10)
+      this.props.photosStore.fetchPhotos(1000)
     },
   }),
   observer,

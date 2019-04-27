@@ -1,4 +1,4 @@
-import React from 'react' //через expo нельзя хукать
+import React from 'react'
 import { Text } from 'react-native'
 import {
   Content,

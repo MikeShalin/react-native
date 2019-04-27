@@ -39,13 +39,14 @@ const FavoriteHelperMixin = types
       if (isEmpty(get(self.favorite, short))) {
         self.favorite = omit(self.favorite, short)
       }
+      self.addLastPhoto(null)
     },
     addLastPhoto(photo) {
       self.lastPhoto = photo
     },
     handleUndo() {
       const lastPhoto = self.lastPhoto
-      self.lastPhoto = null
+      self.addLastPhoto(null)
       self.removeFavorite(lastPhoto)
     },
   }))

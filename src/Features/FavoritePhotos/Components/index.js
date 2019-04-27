@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react' //через expo нельзя хукать
+import React, { Fragment } from 'react'
 import { Text } from 'react-native'
 import { compose } from 'recompose'
 import { inject, observer } from 'mobx-react'

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Animated, TouchableHighlight } from 'react-native'
+import { StyleSheet } from 'react-native'
 
-const initialStyle = {
+const initialStyle = StyleSheet.create({
   button: {
     left: 0,
-    transition: 3,
     height: 60,
     justifyContent: 'center',
     alignSelf: 'stretch',
@@ -21,11 +21,12 @@ const initialStyle = {
     width: 60,
     right: 0,
   },
-}
+})
 
 const FooterButton = ({ children, style, onPress }) => (
   <Animated.View style={style.animated}>
     <TouchableHighlight
+      underlayColor={style.button.backgroundColor}
       style={{ ...style.button, ...initialStyle.button }}
       onPress={onPress}
     >

@@ -1,24 +1,24 @@
-import { get } from 'lodash'
-
-import { buttonAnimation, humanizedDate } from '../../../helpers'
-import PhotoSwiperCard from '../../PhotoSwiperCard'
 import React from 'react'
+import { get } from 'lodash'
 import Swiper from 'react-native-deck-swiper'
 import { compose, withHandlers } from 'recompose'
 import { Grid } from 'native-base'
 import { inject } from 'mobx-react'
+import { StyleSheet } from 'react-native'
 
-const style = {
-  containerStyle: {
+import { buttonAnimation, humanizedDate } from '../../../helpers'
+import PhotoSwiperCard from '../../PhotoSwiperCard/Components'
+
+const styles = StyleSheet.create({
+  container: {
     height: 300,
   },
-  cardStyle: {
-    background: 'transparent',
+  card: {
     flex: 1,
     justifyContent: 'center',
     height: 350,
   },
-}
+})
 
 const PhotoSwiper = ({
                        photos,
@@ -36,10 +36,10 @@ const PhotoSwiper = ({
       cards={photos}
       useViewOverflow={false}
       cardVerticalMargin={30}
-      containerStyle={style.containerStyle}
-      cardStyle={style.cardStyle}
+      containerStyle={styles.container}
+      cardStyle={styles.card}
       backgroundColor='transparent'
-      renderCard={card => (
+      renderCard={(card) => (
         <PhotoSwiperCard
           photoName={getPhotoName(card)}
           camerasName={getCamerasName(card)}
