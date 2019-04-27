@@ -1,6 +1,7 @@
 import React from 'react'
 import { Image, StyleSheet } from 'react-native'
 import { CardItem, Text, View } from 'native-base'
+import { heightDevice } from '../../../helpers'
 
 const styles = StyleSheet.create({
   text: {
@@ -14,16 +15,21 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
   image: {
-    height: 350,
+    height: heightDevice - 200,
     flex: 1,
     borderRadius: 6,
     borderWidth: 1,
     borderColor: '#000',
-  }
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    resizeMode: 'stretch',
+
+  },
 })
 
 const PhotoSwiperCard = ({ photoName, camerasName, date, img }) => (
-  <View>
+  <View style={{}}>
     <View style={styles.wrapper}>
       <Text style={styles.text}>{photoName}</Text>
       <Text style={styles.text}>{camerasName}</Text>

@@ -2,6 +2,7 @@ import axios from 'axios'
 import m from 'moment'
 import { Animated } from 'react-native'
 import { delay } from 'lodash'
+import { Dimensions } from 'react-native'
 
 const getResult = ({ uri, config }) => axios.get(uri, { params: config })
 
@@ -38,4 +39,6 @@ export const buttonAnimation = (animatedValue) => {
   handlerPressIn(animatedValue)
   delay(() => handlerPressOut(animatedValue), 100)
 }
+
+export const { height: heightDevice, width: widthDevice } = Dimensions.get('window')
 

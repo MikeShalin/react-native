@@ -19,9 +19,10 @@ const WrapperPhotoSwiper = ({ isFetching, ...props }) => {
   if (isFetching) return <Spinner color='red'/>
   return (
     <Container>
-      <PhotoSwiper {...props}/>
+      <PhotoSwiper {...props} style={{flex: 2}}/>
       <WrapperPhotoSwiperFooter
         photosCount={size(props.photos)}
+        style={{flex: 2}}
         {...props}
       />
     </Container>

@@ -11,12 +11,18 @@ import PhotoSwiperCard from '../../PhotoSwiperCard/Components'
 
 const styles = StyleSheet.create({
   container: {
-    height: 300,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    top: 0
   },
   card: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
-    height: 350,
+    alignItems: 'stretch',
+    top: 0
   },
 })
 
@@ -28,7 +34,7 @@ const PhotoSwiper = ({
                        handleSwipedRight,
                        handleSwipedLeft,
                      }) => (
-  <Grid>
+  <Grid style={{ flex: 4 }}>
     <Swiper
       ref={swiper}
       onSwipedLeft={handleSwipedLeft}
