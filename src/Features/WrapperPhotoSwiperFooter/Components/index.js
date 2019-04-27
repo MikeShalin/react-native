@@ -1,34 +1,15 @@
-// import React from 'react'
 import React from 'react'
-import { Animated, TouchableHighlight } from 'react-native'
+import { compose, withHandlers } from 'recompose'
 import {
   Grid,
   Left,
   Right,
-  Button,
   Text,
 } from 'native-base'
 
+import FooterButton from '../../FooterButton/Components'
+
 const style = {
-  button: {
-    left: 0,
-    transition: 3,
-    height: 60,
-    justifyContent: 'center',
-    alignSelf: 'stretch',
-    paddingTop: 6,
-    paddingBottom: 6,
-    borderRadius: 57,
-    borderLeftWidth: null,
-    borderRightWidth: null,
-    borderTopWidth: null,
-    borderBottomWidth: null,
-    flexDirection: 'row',
-    elevation: 2,
-    alignItems: 'center',
-    width: 60,
-    right: 0,
-  },
   title: {
     fontSize: 22,
     marginLeft: 0,
@@ -42,7 +23,6 @@ const style = {
     marginTop: 80,
     textAlign: 'center',
     width: 100,
-
   },
 }
 
@@ -52,44 +32,41 @@ const WrapperPhotoSwiperFooter = ({
                                     photosCount,
                                     footerAddFavorite,
                                     footerNext,
+                                    getStyle,
                                   }) => (
   <Grid>
     <Left>
-      <Animated.View
-        style={{ transform: [{ scale: btnDisLikeAnimatedValue }] }}
+      <FooterButton
+        style={getStyle( btnDisLikeAnimatedValue, 'marginLeft', '#000')}
+        onPress={footerAddFavorite}
       >
-        <TouchableHighlight
-          style={{
-            marginLeft: 50,
-            backgroundColor: '#000',
-            ...style.button,
-          }}
-          onPress={footerAddFavorite}
-        >
-          <Text style={style.title}>👎</Text>
-        </TouchableHighlight>
-      </Animated.View>
+        <Text style={style.title}>👎</Text>
+      </FooterButton>
     </Left>
     <Left>
       <Text style={style.photoCount}>{photosCount} cards</Text>
     </Left>
     <Right>
-      <Animated.View style={{
-        transform: [{ scale: btnLikeAnimatedValue }],
-      }}>
-        <TouchableHighlight
-          style={{
-            marginRight: 50,
-            backgroundColor: 'red',
-            ...style.button,
-          }}
-          onPress={footerNext}
-        >
-          <Text style={style.title}>👍</Text>
-        </TouchableHighlight>
-      </Animated.View>
+      <FooterButton
+        style={getStyle( btnLikeAnimatedValue, 'marginRight', '#ff0000')}
+        onPress={footerNext}
+      >
+        <Text style={style.title}>👍</Text>
+      </FooterButton>
     </Right>
   </Grid>
 )
 
-export default WrapperPhotoSwiperFooter
+const WrapperPhotoSwiperFooterComposed = compose(
+  withHandlers({
+    getStyle: () => (scale, marginDir, backgroundColor) => ({
+      animated: { transform: [{ scale }] },
+      button: {
+        [marginDir]: 50,
+        backgroundColor,
+      },
+    })
+  })
+)(WrapperPhotoSwiperFooter)
+
+export default WrapperPhotoSwiperFooterComposed
